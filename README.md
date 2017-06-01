@@ -6,7 +6,7 @@ Seen as this integrates with Gitter it makes sense that it has it's own Gitter c
 I've been using it as a place to test the behaviour of this project, whilst it's being developed.
 But your welcome to come and chat!
 
-## Setup
+## Config
 
 ### config.json
 You need to create a config.json file in the root directory, this is where you will place your api tokens/keys.
@@ -47,3 +47,8 @@ statspageurl is an optional param.
 #### Enabling the webhook for a monitorURL
 
 To enable the web hook for a specific monitor, go it it's edit page and tick the box next to the name of your web hook.
+
+## Deployment
+This will vary depending on whether your using Functions or Lambda.
+
+I am using `>gcloud beta functions deploy webhook --stage-bucket <ldstatus_staging_bucket> --trigger-http` for Google Cloud Functions.
