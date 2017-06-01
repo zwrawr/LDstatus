@@ -19,7 +19,7 @@ exports.webhook = function webhook (req, res) {
 
 
       // Verify that this request came from uptimerobot
-      if (req.body.provider != "uptimerobot" || req.body.token != config["UPTIMEROBOT_TOKEN"]){
+      if (req.body.provider != "uptimerobot" || req.body.token != config.UPTIMEROBOT_TOKEN){
         console.error("Invalid uptimerobot token");
         const error = new Error('Only Authorized requests are accepted');
         error.code = 500;
