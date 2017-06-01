@@ -12,6 +12,7 @@
   "email": "zak@zakwest.tech",
   "license": "MIT",
   "dependencies": {
-    "dotenv": "^4.0.0"
+    "@google-cloud/storage": "^1.1.1",
+    "node-gitter": "^2.0.5"
   }
 }
