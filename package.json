@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/storage": "^1.1.1",
-    "node-gitter": "^2.0.5"
+    "node-gitter": "^2.0.5",
+    "twitter": "^1.7.0"
   }
 }

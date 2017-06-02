@@ -11,7 +11,7 @@ exports.webhook = function webhook (req, res) {
   return Promise.resolve()
     .then(() => {
       if (req.method !== 'POST') {
-        console.error("Non POST request sent");
+        console.error("Only POST requests are accepted");
         const error = new Error('Only POST requests are accepted');
         error.code = 405;
         throw error;
@@ -26,13 +26,19 @@ exports.webhook = function webhook (req, res) {
         throw error;
       }
 
-      console.log(req.body);
-
       var query = require('url').parse(req.url,true).query;
-      console.log(query);
+
+      // Send message to twitter
+      var twitter_tok = {
+        "access_token_key" : config.TWITTER_PAT_TOKEN,
+        "access_token_secret" : config.TWITTER_PAT_SECRET,
+        "consumer_key" : config.TWITTER_CONSUMER_KEY,
+        "consumer_secret" : config.TWITTER_CONSUMER_SECRET
+      };
+      require('./intergrations/twitter').sendMessage(req.body.room, makeMessage_plain(query,req.body),twitter_tok);
 
       // Send message to gitter
-      return require('./intergrations/gitter').sendMessage(req.body.room, makeMessage(query,req.body), config.GITTER_PAT_TOKEN);
+      return require('./intergrations/gitter').sendMessage(req.body.room, makeMessage_MD(query,req.body), config.GITTER_PAT_TOKEN);
     })
     .then((response) => {
       // Send a 400 ok back tp uptime robot
@@ -46,7 +52,7 @@ exports.webhook = function webhook (req, res) {
 };
 
 // Build up the message to send to Gitter
-function makeMessage(query,data){
+function makeMessage_MD(query,data){
 
   var message = null;
   if (query.alertType == 2){
@@ -58,8 +64,30 @@ function makeMessage(query,data){
      query.alertTypeFriendlyName +  " *";
   }
 
+  message += "  \nDetails: " + query.alertDetails;
+
   if (data["statuspageurl"]){
     message += "  \n** [Status Page](" + data.statuspageurl + ") **";
+  }
+
+  return message;
+}
+
+// Build up the message to send to Twitter
+function makeMessage_plain(query,data){
+
+  var message =  query.monitorFriendlyName + "( " + query.monitorURL + " ) is ";
+  if (query.alertType == 2){
+    message += "back " + query.alertTypeFriendlyName +  ".\n It was down for " + query.alertFriendlyDuration;
+  }
+  else{
+    message += query.alertTypeFriendlyName;
+  }
+
+  message += "\nDetails: " + query.alertDetails;
+
+  if (data["statuspageurl"]){
+    message += "\n" + data.statuspageurl;
   }
 
   return message;
