@@ -27,6 +27,7 @@ exports.webhook = function webhook (req, res) {
       }
 
       var query = require('url').parse(req.url,true).query;
+      query.monitorFriendlyName = decodeURI(query.monitorFriendlyName);
 
       // Send message to twitter
       var twitter_tok = {
@@ -56,7 +57,7 @@ function makeMessage_MD(query,data){
 
   var message = null;
   if (query.alertType == 2){
-    message = "## " + query.monitorFriendlyName + "( " + query.monitorURL + " ) is back * " +
+    message = "## " + query.monitorFriendlyName) + "( " + query.monitorURL + " ) is back * " +
      query.alertTypeFriendlyName +  " *  \n" + "was down for " + query.alertFriendlyDuration;
   }
   else{
