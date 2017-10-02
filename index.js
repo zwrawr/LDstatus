@@ -1,3 +1,4 @@
+
 /**
  * HTTP Cloud Function for servicing webhook's from uptime robot.
  *
@@ -57,7 +58,7 @@ function makeMessage_MD(query,data){
 
   var message = null;
   if (query.alertType == 2){
-    message = "## " + query.monitorFriendlyName) + "( " + query.monitorURL + " ) is back * " +
+    message = "## " + query.monitorFriendlyName + "( " + query.monitorURL + " ) is back * " +
      query.alertTypeFriendlyName +  " *  \n" + "was down for " + query.alertFriendlyDuration;
   }
   else{
@@ -77,7 +78,7 @@ function makeMessage_MD(query,data){
 // Build up the message to send to Twitter
 function makeMessage_plain(query,data){
 
-  var message =  query.monitorFriendlyName + "( " + query.monitorURL + " ) is ";
+  var message =  query.monitorFriendlyName + " " + query.monitorURL + " is ";
   if (query.alertType == 2){
     message += "back " + query.alertTypeFriendlyName +  ".\n It was down for " + query.alertFriendlyDuration;
   }
@@ -85,11 +86,13 @@ function makeMessage_plain(query,data){
     message += query.alertTypeFriendlyName;
   }
 
-  message += "\nDetails: " + query.alertDetails;
-
   if (data["statuspageurl"]){
     message += "\n" + data.statuspageurl;
   }
 
+  if (message.length < 134){
+    message += " #LDJAM";
+  }
+  
   return message;
 }
