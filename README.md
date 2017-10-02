@@ -20,8 +20,8 @@ I.E. config.json should be
 }
 ```
 
-Up time robot does not provide you with a token, i suggest using [](random.org).
-I used them to generate a 16byte token via this [link](https://www.random.org/cgi-bin/randbyte?nbytes=32&format=h).
+Up time robot does not provide you with a token,  so I suggest using [](www.random.org) too generate your own.
+I generated a 16byte token via this [link](https://www.random.org/cgi-bin/randbyte?nbytes=32&format=h).
 
 ### uptime robot
 
